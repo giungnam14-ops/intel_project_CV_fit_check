@@ -1,0 +1,25 @@
+# FitCheck-AI 업데이트 로그
+
+## 2026-05-29 업데이트 사항
+**주요 목표**: 실시간 스쿼트 분석 시 음성 피드백(TTS) 멘트가 프레임마다 반복/플리커링(덜덜거림)되는 현상 수정 및 MediaPipe 안정화
+
+1. **관절 좌표 스무딩(평균화) 강화**
+   - 대상 파일: `app/main.py`, `app/analysis_utils.py`
+   - 내용: `raw_knee_angles` 및 `raw_torso_angles`의 이동평균 계산 기준을 최근 5프레임에서 10프레임으로 상향 조정하여 순간적인 좌표 흔들림(노이즈) 제거.
+
+2. **MediaPipe 인식/추적 안정화**
+   - 대상 파일: `app/pose_utils.py`
+   - 내용: `init_pose()` 내부의 `min_detection_confidence` 및 `min_tracking_confidence`를 0.5에서 0.7로 상향하여 확실하게 인식된 프레임만 추적하도록 변경.
+
+3. **자세 상태 유지 로직 (Hysteresis) 도입**
+   - 대상 파일: `app/main.py`
+   - 내용: 피드백 판정부에 `posture_state` 변수를 활용하여 GOOD 상태와 NOT_DEEP(DOWN) 상태 간의 전환에 히스테리시스 로직 적용.
+     - GOOD -> NOT_DEEP: 무릎 각도가 100도를 초과할 때만 전환.
+     - NOT_DEEP -> GOOD: 무릎 각도가 90도 미만으로 내려갈 때만 전환.
+     - 90도 ~ 100도 사이의 중간 범위에서는 이전 상태를 유지하도록 하여 경계값에서의 플리커링 원천 차단.
+
+4. **음성 피드백(TTS) 쿨타임 및 중복 방지 로직 구현**
+   - 대상 파일: `app/main.py`
+   - 내용: 
+     - `pyttsx3` 기반의 비동기 음성 출력 함수(`speak_async`)를 상단에 추가 (threading 활용하여 메인 루프 차단 방지).
+     - 루프 내에 `last_spoken_message`, `last_spoken_time` 변수를 추가하여 동일한 멘트가 반복되지 않고(상태 변경 시에만 출력), 최소 2초의 쿨타임이 지난 후에만 다음 음성이 출력되도록 제어.

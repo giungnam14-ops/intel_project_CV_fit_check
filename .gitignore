@@ -1,0 +1,34 @@
+# 가상환경
+.venv/
+venv/
+env/
+
+# Python 캐시
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# 백업 파일
+*.bak
+*.bak_autobackup
+
+# 결과/로그 (용량 큼)
+results/
+logs/
+
+# 테스트 영상 (용량 큼)
+test_videos/
+
+# 데이터 폴더
+data/
+
+# 환경변수
+.env
+*.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
