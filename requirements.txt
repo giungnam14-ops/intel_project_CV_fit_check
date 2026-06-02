@@ -2,8 +2,5 @@ streamlit==1.37.1
 opencv-python-headless==4.10.0.84
 numpy==1.26.4
 pandas==2.2.2
-mediapipe==0.10.14
+mediapipe==0.10.9
 Pillow==10.4.0
-streamlit-webrtc==0.47.9
-av==12.3.0
-tornado==6.4.2
