@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitCheck AI - 대화형 UI 프로토타입</title>
+    <!-- 외부 스타일시트 연결 -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 
+      데스크톱 메인 레이아웃: 
+      왼쪽은 앱 설명 및 단계 가이드 패널, 오른쪽은 실제 스마트폰 목업 프레임이 위치합니다.
+    -->
+    <div class="desktop-layout">
+        
+        <!-- 왼쪽: 안내 및 진행 순서 패널 -->
+        <div class="instructions-panel">
+            <h1 class="desktop-logo">FitCheck AI</h1>
+            <p class="desktop-desc">클릭 가능한 고충실도(Hi-Fi) 프로토타입 시안입니다.</p>
+            
+            <!-- 현재 어느 화면인지 시각화해 주는 가이드 탭 -->
+            <div class="flow-steps">
+                <div class="step active" data-step="0"><span>1</span> 메인 화면</div>
+                <div class="step" data-step="1"><span>2</span> 카메라 가이드</div>
+                <div class="step" data-step="2"><span>3</span> 실시간 분석</div>
+                <div class="step" data-step="3"><span>4</span> 결과 리포트</div>
+            </div>
+            
+            <p class="click-tip">💡 스마트폰 화면 내부의 버튼을 클릭하면 자연스럽게 다음 단계로 슬라이드 전환됩니다.</p>
+        </div>
+
+        <!-- 오른쪽: 스마트폰 디바이스 프레임 -->
+        <div class="device-wrapper">
+            <div class="phone-bezel">
+                <!-- 상단 스피커/카메라 노치 모양 -->
+                <div class="notch"></div>
+                
+                <!-- 화면 뷰포트 영역 (실제 모바일 화면이 보이는 부분) -->
+                <div class="screen-viewport">
+                    <!-- 4개 화면을 가로로 슬라이딩하기 위한 컨테이너 -->
+                    <div class="screen-slider" id="screen-slider">
+                        
+                        <!-- =========================================
+                             [화면 1: 메인 화면]
+                             ========================================= -->
+                        <section class="screen-item screen-main">
+                            <header class="header">
+                                <h2 class="logo">FitCheck AI</h2>
+                            </header>
+                            
+                            <div class="hero-section">
+                                <div class="hero-illustration">🤸‍♀️</div>
+                                <h3 class="main-copy">내 자세를 확인하며<br>운동하기</h3>
+                                <p class="sub-copy">초보자 맞춤 자세 코칭</p>
+                            </div>
+                            
+                            <div class="content-section">
+                                <div class="card exercise-card">
+                                    <h4 class="card-title">스쿼트</h4>
+                                    <ul class="card-info">
+                                        <li><span class="emoji">⭐⭐</span> 난이도: 초보자 추천</li>
+                                        <li><span class="emoji">📱</span> 촬영 방향: 측면 촬영</li>
+                                        <li><span class="emoji">🎯</span> 코칭 포인트: 무릎과 발끝 방향, 엉덩이 위치</li>
+                                        <li><span class="emoji">🎒</span> 준비물: 없음</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="bottom-action">
+                                <button class="btn primary-btn" id="btn-start">스쿼트 코칭 시작하기</button>
+                            </div>
+                        </section>
+
+                        <!-- =========================================
+                             [화면 2: 카메라 세팅 가이드 화면]
+                             ========================================= -->
+                        <section class="screen-item screen-guide">
+                            <header class="header">
+                                <h3 class="screen-title">더 정확한 코칭을 위해<br>카메라를 세팅해주세요</h3>
+                            </header>
+                            
+                            <div class="illustration-section">
+                                <div class="phone-stand-illustration">
+                                    <div class="phone-shape"></div>
+                                    <div class="human-silhouette">👤</div>
+                                </div>
+                            </div>
+                            
+                            <div class="content-section">
+                                <ul class="checklist">
+                                    <li>✅ 측면 촬영 권장</li>
+                                    <li>✅ 머리부터 발끝까지 화면 안에 들어오기</li>
+                                    <li>✅ 무릎, 엉덩이, 발목이 가려지지 않기</li>
+                                    <li>⚠️ 너무 어둡거나 헐렁한 옷은 인식이 어려울 수 있음</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bottom-action">
+                                <button class="btn primary-btn" id="btn-ready">준비 완료</button>
+                            </div>
+                        </section>
+
+                        <!-- =========================================
+                             [화면 3: 실시간 자세 분석 화면]
+                             ========================================= -->
+                        <section class="screen-item screen-analysis">
+                            <div class="camera-preview">
+                                <div class="top-bar">
+                                    <span class="counter">현재 스쿼트 5회째</span>
+                                    <span class="pause-icon">⏸️</span>
+                                </div>
+                                
+                                <!-- 스켈레톤 (뼈대) 오버레이 -->
+                                <div class="skeleton-overlay">
+                                    <div class="joint head"></div>
+                                    <div class="bone spine"></div>
+                                    <div class="joint hip"></div>
+                                    <div class="bone thigh"></div>
+                                    <div class="joint knee"></div>
+                                    <div class="bone calf"></div>
+                                    <div class="joint ankle"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="coaching-banner">
+                                <p>💡 엉덩이를 조금만 더 뒤로 빼볼까요?</p>
+                            </div>
+                            
+                            <div class="bottom-action overlay-action">
+                                <button class="btn danger-btn" id="btn-end">운동 종료</button>
+                            </div>
+                        </section>
+
+                        <!-- =========================================
+                             [화면 4: 운동 결과 리포트 화면]
+                             ========================================= -->
+                        <section class="screen-item screen-result">
+                            <header class="header center-header">
+                                <div class="celebration">🎉</div>
+                                <h3 class="screen-title">수고하셨습니다!<br>오늘도 꾸준히 해냈어요 👏</h3>
+                                <p class="summary-text">총 15회 / 5분 소요</p>
+                            </header>
+                            
+                            <div class="content-section">
+                                <div class="card score-card">
+                                    <p class="score-title">오늘의 자세 안정성 리포트</p>
+                                    <p class="score-value">85점</p>
+                                </div>
+                                
+                                <div class="card advice-card">
+                                    <h4 class="advice-title">💡 원포인트 어드바이스</h4>
+                                    <p class="advice-text">전체적으로 안정적이에요! 다음번엔 허리를 조금 더 곧게 펴고 진행해보세요.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bottom-action">
+                                <button class="btn primary-btn" id="btn-home">홈으로 가기</button>
+                            </div>
+                        </section>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 외부 자바스크립트 파일 로드 -->
+    <script src="script.js"></script>
+</body>
+</html>

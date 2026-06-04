@@ -1,0 +1,497 @@
+/* =========================================
+   기본 초기화 및 전체 폰트 설정
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* 부드럽고 고급스러운 그라데이션 배경 */
+    background: linear-gradient(135deg, #e2ebf0 0%, #cfd9df 100%);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+}
+
+/* =========================================
+   데스크톱 프레젠테이션 레이아웃
+   ========================================= */
+.desktop-layout {
+    display: flex;
+    gap: 80px;
+    align-items: center;
+    justify-content: center;
+    max-width: 1000px;
+    width: 100%;
+    padding: 40px;
+}
+
+/* 왼쪽 안내 및 진행 순서 패널 (유리모핑 효과) */
+.instructions-panel {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 32px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+}
+
+.desktop-logo {
+    font-size: 28px;
+    font-weight: 900;
+    color: #5DADE2; /* 파스텔 블루 */
+    margin-bottom: 12px;
+}
+
+.desktop-desc {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* 진행 4단계 리스트 스타일 */
+.flow-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 15px;
+    color: #777;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1.5px solid transparent;
+}
+
+.step span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: #e0e0e0;
+    color: #777;
+    border-radius: 50%;
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+
+/* 활성화된 단게 스타일 */
+.step.active {
+    background: #ffffff;
+    color: #333;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    border-color: #5DADE2;
+}
+
+.step.active span {
+    background: #5DADE2;
+    color: white;
+}
+
+.step:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.click-tip {
+    font-size: 13px;
+    color: #666;
+    background: rgba(255, 255, 255, 0.35);
+    padding: 12px 18px;
+    border-radius: 12px;
+    display: inline-block;
+    line-height: 1.5;
+}
+
+/* =========================================
+   오른쪽 스마트폰 디바이스 프레임
+   ========================================= */
+.device-wrapper {
+    flex-shrink: 0;
+}
+
+.phone-bezel {
+    width: 340px; /* 전체 디바이스 폭 */
+    height: 680px; /* 전체 디바이스 높이 */
+    background: #1e1e24; /* 아이폰 베젤 느낌의 어두운 메탈 질감 */
+    border-radius: 54px;
+    padding: 13px; /* 화면과의 보더 두께 */
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15), 
+                0 0 0 4px #2c2c35;
+    position: relative;
+}
+
+/* 아이폰 노치 모양 */
+.notch {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 110px;
+    height: 20px;
+    background: #1e1e24;
+    border-radius: 0 0 12px 12px;
+    z-index: 999;
+}
+
+/* 화면 뷰포트 영역 (둥근 모서리와 내부 차단) */
+.screen-viewport {
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    border-radius: 42px;
+    overflow: hidden; /* 내부 스크롤 시 둥근 모서리가 유지되도록 */
+    position: relative;
+}
+
+/* 4개의 화면을 가로 배치해 슬라이드 전환을 처리하는 컨테이너 */
+.screen-slider {
+    display: flex;
+    width: 400%; /* 화면 4개 기준 400% */
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); /* 프리미엄 가속도 모션 */
+}
+
+/* 개별 화면 컨텐츠 영역 */
+.screen-item {
+    width: 25%; /* 400% 안에서 25% 비율을 차지하므로 뷰포트 너비와 정확히 일치 */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    background-color: #ffffff;
+    position: relative;
+}
+
+/* =========================================
+   공통 영역 (상단, 본문, 하단)
+   ========================================= */
+.header {
+    padding: 35px 20px 10px; /* 노치 영역을 피해 패딩 설정 */
+}
+.content-section {
+    padding: 10px 20px;
+    flex: 1;
+    overflow-y: auto;
+}
+.bottom-action {
+    padding: 20px;
+    background: #ffffff;
+}
+
+/* =========================================
+   타이포그래피 및 텍스트 스타일
+   ========================================= */
+.logo {
+    font-size: 20px;
+    font-weight: 800;
+    color: #5DADE2;
+    text-align: center;
+    margin-bottom: 15px;
+}
+.main-copy {
+    font-size: 24px;
+    font-weight: 800;
+    color: #333;
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+.sub-copy {
+    font-size: 15px;
+    color: #666;
+}
+.screen-title {
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #333;
+}
+
+/* =========================================
+   버튼 스타일
+   ========================================= */
+.btn {
+    width: 100%;
+    padding: 16px;
+    border-radius: 18px; /* 더 둥근 형태 */
+    border: none;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.btn:active {
+    transform: scale(0.97); /* 클릭 시 들어가는 효과 */
+}
+.primary-btn {
+    background-color: #48C9B0; /* 민트 */
+    color: white;
+    box-shadow: 0 4px 15px rgba(72, 201, 176, 0.25);
+}
+.danger-btn {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+/* =========================================
+   카드 컴포넌트 공통 스타일
+   ========================================= */
+.card {
+    border-radius: 22px;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+/* =========================================
+   [화면 1] 메인 화면 특화 스타일
+   ========================================= */
+.hero-section {
+    text-align: center;
+    padding: 20px;
+    background-color: #F0F8FF;
+    border-radius: 24px;
+    margin: 0 20px 20px;
+}
+.hero-illustration {
+    font-size: 50px;
+    margin-bottom: 15px;
+}
+.exercise-card {
+    background-color: #ffffff;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+.card-title {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #333;
+}
+.card-info {
+    list-style: none;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.8;
+}
+.emoji {
+    margin-right: 6px;
+}
+
+/* =========================================
+   [화면 2] 카메라 가이드 특화 스타일
+   ========================================= */
+.illustration-section {
+    height: 180px;
+    background-color: #F0F8FF;
+    margin: 10px 20px 20px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.phone-stand-illustration {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.phone-shape {
+    width: 45px;
+    height: 90px;
+    background-color: #5DADE2;
+    border-radius: 8px;
+    transform: rotate(-15deg);
+    position: absolute;
+    bottom: 20px;
+    left: 60px;
+}
+.human-silhouette {
+    font-size: 70px;
+    opacity: 0.15;
+    position: absolute;
+    right: 50px;
+    bottom: 15px;
+}
+.checklist {
+    list-style: none;
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+}
+.checklist li {
+    margin-bottom: 8px;
+    background-color: #f8f9fa;
+    padding: 12px;
+    border-radius: 12px;
+}
+
+/* =========================================
+   [화면 3] 실시간 분석 화면 (어두운 테마)
+   ========================================= */
+.screen-analysis {
+    background-color: #1a1a2e;
+}
+.camera-preview {
+    flex: 1;
+    position: relative;
+    border-radius: 30px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #16222a, #3a6073);
+    margin: 10px 10px 0 10px;
+}
+.top-bar {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+}
+.counter {
+    background-color: rgba(0,0,0,0.6);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+}
+.pause-icon {
+    font-size: 20px;
+}
+
+.skeleton-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+}
+.joint {
+    width: 14px; height: 14px;
+    background-color: #ffffff;
+    border: 3px solid #48C9B0;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 2;
+    transform: translate(-50%, -50%);
+}
+.bone {
+    background-color: #48C9B0;
+    position: absolute;
+    border-radius: 10px;
+    z-index: 1;
+    transform-origin: top center;
+}
+.head { top: 120px; left: 160px; width: 36px; height: 46px; border-radius: 20px; }
+.spine { top: 140px; left: 160px; width: 6px; height: 100px; transform: rotate(25deg); }
+.hip { top: 230px; left: 118px; }
+.thigh { top: 230px; left: 118px; width: 6px; height: 90px; transform: rotate(-75deg); }
+.knee { top: 253px; left: 35px; }
+.calf { top: 253px; left: 35px; width: 6px; height: 100px; transform: rotate(15deg); }
+.ankle { top: 350px; left: 60px; }
+
+.coaching-banner {
+    position: absolute;
+    bottom: 90px;
+    left: 20px;
+    right: 20px;
+    background-color: #fdf2e9;
+    padding: 16px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    font-size: 14px;
+    font-weight: 700;
+    color: #d35400;
+    z-index: 10;
+    text-align: center;
+}
+.overlay-action {
+    background: transparent;
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 15px;
+}
+
+/* =========================================
+   [화면 4] 운동 결과 리포트 화면 특화 스타일
+   ========================================= */
+.center-header {
+    text-align: center;
+    padding-top: 40px;
+}
+.celebration {
+    font-size: 60px;
+    margin-bottom: 10px;
+}
+.summary-text {
+    color: #666;
+    margin-top: 12px;
+    font-size: 15px;
+}
+.score-card {
+    background-color: #EAF2F8;
+    text-align: center;
+    padding: 30px 20px;
+}
+.score-title {
+    font-size: 14px;
+    color: #5DADE2;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+.score-value {
+    font-size: 56px;
+    font-weight: 800;
+    color: #333;
+}
+.advice-card {
+    background-color: #E8F8F5;
+}
+.advice-title {
+    font-size: 15px;
+    color: #117864;
+    margin-bottom: 10px;
+}
+.advice-text {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* =========================================
+   반응형 모바일 및 태블릿 대응
+   ========================================= */
+@media (max-width: 800px) {
+    body {
+        align-items: flex-start;
+        padding: 20px;
+        overflow-y: auto;
+    }
+    .desktop-layout {
+        flex-direction: column;
+        gap: 40px;
+        padding: 10px;
+    }
+    .instructions-panel {
+        width: 100%;
+        padding: 24px;
+    }
+}
